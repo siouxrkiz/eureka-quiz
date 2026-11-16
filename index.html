@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>しゅり配信うんちく上奏 例題</title><style>
+<title>しゅり配信うんちく上奏</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Outfit:wght@500;800&display=swap');
 :root{--bg:#0c0d12;--bg2:#141621;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--fg:#f2efe9;--sub:#8e8c99;
 --gold:#f5b942;--gold2:#ff7a45;--blue:#6aa8ff;--glow:rgba(245,185,66,.35)}
@@ -46,16 +46,190 @@ button.s{background:transparent;border-color:var(--blue);color:var(--blue)}
 .eureka{font-weight:900;white-space:nowrap}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .swap{animation:in .35s ease both}
-</style></head><body><div class="wrap">
-<header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">SAMPLE</span></header>
-<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>と叫んで回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
-<div class="card qcard swap"><div class="qno">例題</div><div class="q" style="margin-top:14px">ある人は、行きつけの店で、いつもなら付いてくるはずのものが、いつの間にか出てこなくなった。店と揉めたわけではない。たまに出てきたときは、店員に謝られて下げられた。なぜ？</div></div>
-<div class="card rule" style="font-size:13px">本番は 11/22 のオフ会で出題します。これは遊び方を試すための例題です。<br>本番では出題者がヒントを出しますが、例題ではボタンで確認できます。</div>
-<nav><button class="s grow" id="hb">ヒント 0/3</button><button class="p grow" id="ab">答えを見る</button></nav>
+.who{display:flex;align-items:center;gap:10px}.who b{font-size:17px}.who a{font-size:12px;color:var(--sub);cursor:pointer;text-decoration:underline}
+.koku{font:800 15px Outfit,sans-serif;color:var(--gold)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#666;margin-right:6px;vertical-align:middle}.live.on{background:#3ddc84;box-shadow:0 0 8px #3ddc84}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+.names button{padding:16px 10px}
+input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);min-width:0;flex:1}
+.joso{width:100%;padding:22px;font-size:26px;font-weight:900;letter-spacing:.1em;border-radius:20px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1208;border:0;box-shadow:0 14px 40px -12px var(--glow)}
+.joso:disabled{opacity:.45}
+.board{list-style:none;margin:8px 0 0;padding:0}.board li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.board li.me{color:var(--gold)}.rk{display:inline-block;font:800 13px Outfit,sans-serif;color:var(--sub);width:26px}
+.queue{list-style:none;margin:8px 0 0;padding:0}.queue li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}.queue li .n{flex:1;font-weight:700}
+.queue button{padding:8px 12px;font-size:13px}.queue .ok{background:#1f9d55;border:0;color:#fff}.queue .ng{background:#c0392b;border:0;color:#fff}
+.queue li.done{opacity:.5}
+.toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);padding:14px 22px;border-radius:14px;background:var(--bg2);border:1px solid var(--line);font-weight:900;font-size:18px;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.4);transition:opacity .5s;white-space:nowrap}
+.toast.ok{border-color:#3ddc84;color:#3ddc84}.toast.ng{border-color:#ff6b5b;color:#ff6b5b}.toast.out{opacity:0}
+.small{font-size:12px;color:var(--sub)}
+.mini{padding:6px 10px;font-size:12px;border-radius:10px}
+.inrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+</style></head><body><div class="wrap"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
+<div id="pick" class="hidden"><div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>まず、あなたは誰ですか？</div>
+<div class="names" id="names"></div>
+<div class="card" style="margin-top:14px"><div class="small">名簿にいない場合</div><div class="inrow"><input type="text" id="other" placeholder="名前を入力"><button class="p" id="otherok">決定</button></div></div></div>
+<div id="main" class="hidden">
+<div class="card row"><div class="who"><b id="me"></b><span class="small">殿</span><a id="change">変更</a></div><div class="koku" id="mykoku"></div></div>
+<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>ボタンを押して回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
+<div class="card qcard swap" id="qc"><div class="qno" id="qno"></div><div class="q" id="q" style="margin-top:14px"></div><div class="small" id="qnote" style="margin-top:10px"></div></div>
 <div id="hints"></div>
-<div class="card anscard hidden" id="ansbox"><div class="label">ANSWER</div><div class="ans">その人がセットのスープを毎回飲まずに残していたので、店が『この客にはスープは要らない』と覚えて、付けなくなったから。（2021年、syuri の実話）</div></div>
-</div><script>
-const H=["行きつけの店は中華料理屋", "出てこなくなったのは、定食に付いてくる『あるもの』", "その人は、それにいつも手を付けていなかった"];let h=0;const $=id=>document.getElementById(id);
-$('hb').onclick=()=>{if(h>=H.length)return;const e=document.createElement('div');e.className='hint';e.innerHTML='<b>HINT '+(h+1)+'</b>';e.append(H[h]);$('hints').appendChild(e);h++;$('hb').textContent='ヒント '+h+'/3'};
-$('ab').onclick=()=>{const x=$('ansbox').classList.toggle('hidden');$('ab').textContent=x?'答えを見る':'答えを隠す'};
+<div class="card anscard hidden" id="ansbox"><div class="label">ANSWER</div><div class="ans" id="ans"></div></div>
+<button class="joso" id="joso">上奏！</button>
+<div class="small" id="josomsg" style="text-align:center;margin:8px 0 16px"></div>
+<div class="card"><div class="h2">石高ランキング</div><ul class="board" id="board"></ul></div>
+<div class="card" id="samplebox"><div class="small">例題の答え合わせ（出題前の練習用）</div>
+<nav><button class="s grow" id="shb">ヒント 0/3</button><button class="grow" id="sab">答えを見る</button></nav><div id="shints"></div>
+<div class="card anscard hidden" id="sansbox"><div class="label">ANSWER</div><div class="ans" id="sans"></div></div></div>
+</div>
+</div>
+<script>const DATA={"topic": "syuri-joso-54f8c517e6b0", "roster": ["syuri", "tefu", "LANCEL", "kwkn", "temawari", "ssynjya", "つぐさん", "Saya3", "rekaizu"], "sample": {"q": "ある人は、行きつけの店で、いつもなら付いてくるはずのものが、いつの間にか出てこなくなった。店と揉めたわけではない。たまに出てきたときは、店員に謝られて下げられた。なぜ？", "hints": ["行きつけの店は中華料理屋", "出てこなくなったのは、定食に付いてくる『あるもの』", "その人は、それにいつも手を付けていなかった"], "a": "その人がセットのスープを毎回飲まずに残していたので、店が『この客にはスープは要らない』と覚えて、付けなくなったから。（2021年、syuri の実話）"}};
+// ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
+const NTFY = "https://ntfy.sh";
+
+function esc(t) {
+  return String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+function koku(n) {
+  const v = Number(n) || 0;
+  const sign = v < 0 ? "−" : "";
+  const a = Math.abs(v);
+  if (a >= 10000) return `${sign}${(a / 10000).toFixed(a % 10000 ? 1 : 0)}万石`;
+  return `${sign}${a}石`;
+}
+
+async function publish(topic, obj) {
+  try {
+    const res = await fetch(`${NTFY}/${topic}`, { method: "POST", body: JSON.stringify(obj) });
+    return res.ok;
+  } catch (e) {
+    console.warn("publish failed", e);
+    return false;
+  }
+}
+
+async function fetchRecent(topic, since) {
+  try {
+    const res = await fetch(`${NTFY}/${topic}/json?poll=1&since=${since}`);
+    if (!res.ok) return [];
+    const text = await res.text();
+    return text.split("\n").filter(Boolean).map((l) => {
+      try { return JSON.parse(JSON.parse(l).message); } catch (e) { return null; }
+    }).filter(Boolean);
+  } catch (e) {
+    console.warn("poll failed", e);
+    return [];
+  }
+}
+
+function subscribe(topic, onMsg, onStatus) {
+  let retry = 1000;
+  const open = () => {
+    const es = new EventSource(`${NTFY}/${topic}/sse`);
+    es.onopen = () => { retry = 1000; if (onStatus) onStatus(true); };
+    es.onmessage = (ev) => {
+      try {
+        const outer = JSON.parse(ev.data);
+        if (outer.event !== "message") return;
+        onMsg(JSON.parse(outer.message));
+      } catch (e) { /* 形式の違うメッセージは無視 */ }
+    };
+    es.onerror = () => {
+      if (onStatus) onStatus(false);
+      es.close();
+      setTimeout(open, retry);
+      retry = Math.min(retry * 2, 15000);
+    };
+  };
+  open();
+}
+
+function toast(msg, kind) {
+  const el = document.createElement("div");
+  el.className = `toast ${kind || ""}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.classList.add("out"), 2600);
+  setTimeout(() => el.remove(), 3200);
+}
+
+const TOPIC = DATA.topic;
+const $ = (id) => document.getElementById(id);
+let me = null, state = null, lastJoso = 0;
+try { me = localStorage.getItem("joso-me"); } catch (e) {}
+
+function showPick() {
+  $("pick").classList.remove("hidden"); $("main").classList.add("hidden");
+  $("names").innerHTML = "";
+  (state?.roster || DATA.roster).forEach((n) => {
+    const b = document.createElement("button"); b.textContent = n; b.onclick = () => setMe(n); $("names").appendChild(b);
+  });
+}
+function setMe(n) {
+  me = String(n || "").trim().slice(0, 30); if (!me) return;
+  try { localStorage.setItem("joso-me", me); } catch (e) {}
+  $("pick").classList.add("hidden"); $("main").classList.remove("hidden"); render();
+}
+$("otherok").onclick = () => setMe($("other").value);
+$("change").onclick = showPick;
+
+function render() {
+  if (!me) return;
+  $("me").textContent = me;
+  const sc = state?.scores || {};
+  $("mykoku").textContent = koku(sc[me] || 0);
+  const cur = state?.cur;
+  if (cur) {
+    $("qno").innerHTML = `Q.${String(cur.no).padStart(2, "0")}<small>/ ${cur.total}</small>`;
+    $("q").textContent = cur.q; $("qnote").textContent = ""; $("samplebox").classList.add("hidden");
+  } else {
+    $("qno").textContent = "例題"; $("q").textContent = DATA.sample.q;
+    $("qnote").textContent = "出題が始まると、ここに本番の問題が自動で表示されます。今は上奏ボタンのテストができます。";
+    $("samplebox").classList.remove("hidden");
+  }
+  $("hints").innerHTML = (cur?.hints || []).map((h, i) => `<div class="hint"><b>HINT ${i + 1}</b>${esc(h)}</div>`).join("");
+  if (cur && cur.ans) { $("ansbox").classList.remove("hidden"); $("ans").textContent = cur.ans; } else $("ansbox").classList.add("hidden");
+  const names = [...new Set([...(state?.roster || DATA.roster), ...Object.keys(sc)])];
+  const rows = names.map((n) => [n, sc[n] || 0]).sort((a, b) => b[1] - a[1]);
+  $("board").innerHTML = rows.map(([n, v], i) => `<li class="${n === me ? "me" : ""}"><span><span class="rk">${i + 1}</span>${esc(n)}</span><span class="koku">${koku(v)}</span></li>`).join("");
+}
+
+$("joso").onclick = async () => {
+  if (!me) return showPick();
+  const now = Date.now(); if (now - lastJoso < 4000) return; lastJoso = now;
+  $("joso").disabled = true; setTimeout(() => ($("joso").disabled = false), 4000);
+  const no = state?.cur?.no || 0;
+  const ok = await publish(TOPIC, { type: "joso", name: me, no, ts: now, id: `${me}-${now}` });
+  $("josomsg").textContent = ok
+    ? (no ? `第${no}問に上奏しました。出題者の沙汰を待て。` : "例題で上奏しました（テスト）。出題者の画面に届いています。")
+    : "送信できませんでした。電波を確認してもう一度。";
+};
+
+function onMsg(m) {
+  if (m.type !== "state") return;
+  if (state && m.v <= state.v) return;
+  state = m; render();
+  if (m.last && m.last.name && m.last.ts > Date.now() - 15000) {
+    const ok = m.last.kind === "ok";
+    toast(`${m.last.name} 殿、${ok ? "加増！" : "切腹…"}`, ok ? "ok" : "ng");
+  }
+}
+
+(async () => {
+  const hist = await fetchRecent(TOPIC, "12h");
+  hist.filter((m) => m.type === "state").forEach((m) => { if (!state || m.v > state.v) state = m; });
+  if (me) setMe(me); else showPick();
+  subscribe(TOPIC, onMsg, (on) => { $("live").classList.toggle("on", on); $("livet").textContent = on ? "LIVE" : "再接続中"; });
+})();
+
+let sh = 0;
+$("shb").onclick = () => {
+  if (sh >= DATA.sample.hints.length) return;
+  const e = document.createElement("div"); e.className = "hint"; e.innerHTML = `<b>HINT ${sh + 1}</b>`; e.append(DATA.sample.hints[sh]);
+  $("shints").appendChild(e); sh++; $("shb").textContent = `ヒント ${sh}/3`;
+};
+$("sab").onclick = () => {
+  $("sans").textContent = DATA.sample.a;
+  const x = $("sansbox").classList.toggle("hidden"); $("sab").textContent = x ? "答えを見る" : "答えを隠す";
+};
 </script></body></html>
