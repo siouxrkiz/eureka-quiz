@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>しゅり配信うんちく上奏クイズ</title><style>
+<meta name="robots" content="noindex"><title>しゅり配信うんちく上奏クイズ</title><script src="mqtt.min.js"></script><style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Outfit:wght@500;800&display=swap');
 :root{--bg:#0c0d12;--bg2:#141621;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--fg:#f2efe9;--sub:#8e8c99;
 --gold:#f5b942;--gold2:#ff7a45;--blue:#6aa8ff;--glow:rgba(245,185,66,.35)}
@@ -69,10 +69,34 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 .guide summary{cursor:pointer;font-weight:700}.guide ol,.guide ul{margin:6px 0 14px;padding-left:1.3em}.guide li{margin:4px 0;font-size:14px}.guide li::marker{color:var(--gold)}
 .pk{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}.pk input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--gold)}
 .mini.del{color:#ff6b5b;margin-left:4px}
-</style></head><body><div class="wrap"><div id="lock"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">2026.11.22</span></header>
+/* ---- 装飾 ---- */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;
+ background-image:radial-gradient(circle at 50% 100%,transparent 18px,var(--gold) 19px,var(--gold) 20px,transparent 21px,transparent 27px,var(--gold) 28px,var(--gold) 29px,transparent 30px);
+ background-size:60px 30px}
+.wrap{position:relative;z-index:1}
+.qcard::before,.qcard::after{content:"";position:absolute;width:26px;height:26px;border:2px solid var(--gold);opacity:.7}
+.qcard::before{top:12px;left:12px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.qcard::after{bottom:12px;right:12px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.ttl{position:relative;padding-bottom:10px}
+.ttl::after{content:"";display:block;width:84px;height:3px;margin-top:10px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent)}
+.kamon{display:inline-block;width:22px;height:22px;margin-right:8px;vertical-align:-5px}
+.stampwrap{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;pointer-events:none;background:rgba(0,0,0,.25);transition:opacity .5s}
+.stampwrap.out{opacity:0}
+.stamp{width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:8px double #e8434f;color:#e8434f;
+ font:900 56px "Zen Kaku Gothic New",serif;letter-spacing:.05em;transform:rotate(-12deg);animation:press .45s cubic-bezier(.2,1.6,.4,1) both;
+ background:rgba(255,255,255,.04);box-shadow:0 0 0 3px rgba(232,67,79,.15) inset;text-shadow:0 0 1px #e8434f}
+.stamp span{writing-mode:horizontal-tb}
+.stampwrap.ok .stamp{border-color:var(--gold);color:var(--gold);text-shadow:0 0 18px rgba(245,185,66,.6)}
+.stampwrap.wait .stamp{border-color:#9a9aa8;color:#c8c8d0;font-size:48px}
+.stampsub{margin-top:18px;font-weight:900;font-size:20px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);animation:in .4s .2s both}
+@keyframes press{0%{transform:rotate(-12deg) scale(2.4);opacity:0}60%{opacity:1}100%{transform:rotate(-12deg) scale(1)}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:21;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:fall linear both}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+</style></head><body><div class="wrap"><div id="lock"><header><div class="logo"><svg class="kamon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="url(#kg)" stroke-width="2.5"/><defs><linearGradient id="kg" x1="0" x2="1"><stop offset="0" stop-color="#f5b942"/><stop offset="1" stop-color="#ff7a45"/></linearGradient></defs><g fill="url(#kg)"><path d="M20 6a7 7 0 1 1 0 14a7 7 0 0 0 0 0a7 7 0 0 1 -7 -7a7 7 0 0 1 7-7z"/><path d="M32.1 27a7 7 0 1 1 -12.1-7a7 7 0 0 1 9.6-2.6a7 7 0 0 1 2.5 9.6z" opacity=".85"/><path d="M7.9 27a7 7 0 1 1 12.1-7a7 7 0 0 1 -2.5 9.6a7 7 0 0 1 -9.6-2.6z" opacity=".7"/></g></svg>Syuri Haishin <b>上奏</b></div><span class="tag">2026.11.22</span></header>
 <div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏クイズ</div>参加者用のパスワードを入れてください。一度入れると、次からは自動で開きます。</div>
 <div class="card"><div class="inrow"><input type="password" id="pw" placeholder="パスワード" autocomplete="current-password"><button class="p" id="pwok">開く</button></div><div class="small" id="pwmsg" style="margin-top:8px"></div></div></div>
-<div id="app" class="hidden"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
+<div id="app" class="hidden"><header><div class="logo"><svg class="kamon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="url(#kg)" stroke-width="2.5"/><defs><linearGradient id="kg" x1="0" x2="1"><stop offset="0" stop-color="#f5b942"/><stop offset="1" stop-color="#ff7a45"/></linearGradient></defs><g fill="url(#kg)"><path d="M20 6a7 7 0 1 1 0 14a7 7 0 0 0 0 0a7 7 0 0 1 -7 -7a7 7 0 0 1 7-7z"/><path d="M32.1 27a7 7 0 1 1 -12.1-7a7 7 0 0 1 9.6-2.6a7 7 0 0 1 2.5 9.6z" opacity=".85"/><path d="M7.9 27a7 7 0 1 1 12.1-7a7 7 0 0 1 -2.5 9.6a7 7 0 0 1 -9.6-2.6z" opacity=".7"/></g></svg>Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
 <div id="pick" class="hidden"><div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏クイズ</div>まず、あなたは誰ですか？</div>
 <div class="names" id="names"></div>
 <div class="card" style="margin-top:14px"><div class="small">名簿にいない場合</div><div class="inrow"><input type="text" id="other" placeholder="名前を入力"><button class="p" id="otherok">決定</button></div></div></div>
@@ -91,7 +115,7 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 
 <div style="text-align:center;margin-top:24px"><button class="mini" id="logout">ログアウト</button></div>
 </div></div>
-<script>let DATA=null;const ENC={"salt":"zHUdQLBzP7s4wqsRJwpqVQ==","iv":"Qx0nvTWLpFukyDmv","ct":"OMvgnYhlkuuCdCWgu/dYmgwaS+wUhNUWyXszuITC3Hedv59JLdp1jfJ3qhIC8VPbRrXeqDHzp+iQH9zYbAemjO2q0HiEO6BsCURyG3aoijx5BTwKx9EGE711HUahv9C1HKKxYiFmh+Cg4AgDKS8dZ+Ry7qpA6oXod8lLEP7exfWEeWN5bTa8hfRuMj32WUhaiiM8LSGLFd9J1mlrSPA4VgPpMwsf4hcBLaK6sqI5nojg0kIMqExy8tHIPBo2phqSRPJi5OoKSnlHVU385u459RuY6Nm/bBlvQm92pfgMbdNo5S8DUP0GLdx3ZMbfAYSiYFnCL3+5vfxLCfyKQaNAIR/cl6uC/MgxGE4/psNgyjjwe4OFf7M0DsOcyeF9Jhpwa2WUEUuMKdHCIR+ZqrwelU8TlvcFqCAyyP/qu+LdNdeU0a7tEY5mGllexHNYQM8P4WlEoYibjjkSkwwtOHvmFWiBJCj+LGGxQEmFbwzpxbMySaSw0h1FEVk7ukRcRfUQjxA74SeULrRPzSt02Km1qCgV+5yjH7KxLfpFPPRx+5RKQto8bj/IAQROYC2PTD/1ZzcVH1YDBB6VCe/VhJVm/sHK+6NbY5jeq6P1vErLmDWudCVXkR1ItwnOC8NVqK8Nmx3XG+kUJl7sDwDid1LHtZ4VBS0AznSRK0F0yfefLwvHcJmxNECkbOHMejjpifrlNxwWyczwFYFa8X6RfaUlTGXVLGKQZkKSM2UTbGXHdn3UdbKASGc8TgVv2/9ZiXXhfYnUQ5cmkVDp2qaC4XhByYvMk+MGtN2Jo+a97NIsYXm7/2miv8pNB+i9zL7WcX/EfRCqieHdSu37HhfVc2RoIu2tU7zrUV2id4aAeSzOPXmJSsB5OoP2IVK5Yu8qxoMlouKbHP0xMVg6XiRcxRSzK4NWCFKZ+vvhVFWFgD7O9gUp+8H5OeOSUXorDaFmXFPNdRpbuQ0SyaMxTLiDxvlaKogzUlAlWZBUtcDenJk/kQ3MR2d+/g5cuq6EtFpmHVWPut+PNwKc2oaI1MTnejkLACHlAFAE5RIivfkzKCkc12PUdA7C5N1l+pOuVffDDNkVAMjuh/SQbCX2T4EZavVEbXbJy4wWEPAw82sTZLnCQJAr+RTkbFEAnxNO39nyAMGexya1bd9FlC4cjnOJ4nyNxCnUso7Kh09wGABpRXwGeIbR0JaKr54lEkjm2Y6exyV0qUqcCr8H6+wtui77YRRYp/AFBQUddUkud6MGS1lADjihpKQhND5QcAu9cYEa0PcW0lJ5rdR3LoiKPSrN837QaM/aLtdI3YhDFXw+C9HRb6jQw9g7YhRq/2mg6zhuSs9txjy87AMkGHbeKq6B/xsBxtYdZUkYoWNKcs2unZxKwztRGEDkvRcYisu6Wwv2aFI9jJRuIAO2aCXWcQJVN4hxUA2p+//BfdmNrIiNqkUob5F1q4GZrCmp29B9YcKg2D7FqrTsC+CgPxchOapx235tppG7kXnb236lYA==","it":300000};
+<script>let DATA=null;const ENC={"salt":"Wcd88dryOkvI4MX7skFCsA==","iv":"Z4vhmUylXLH7+Ac0","ct":"czGmtwC0bh4FzBqRlv/ljVsMwLblKv//m8hir4m5aAPS5X+oJPlbbfKeEL/g7XEgdxMBDNEcoIGxoAyj9fIK32PQeM67Lv/a9tz/nFvMXa/l7PfmQZ55/qAf1LV+eT3yqH6nsEGEUSFvdpEVozdvzrywFwIOXSj0NrSQqlcr9m76EUY/9XyrTci1pYToHHFaE0b77P6/L/USg3e0QbLjNdyGtLeWLLX9q4y5lD5/kryzsD478k0VlFmr6sMlYXz6zLf57nN/ziUdql0McQPYYWLVjNvY+zrAbzDHD9FrVt1DuURjScJzeoHpKZU7cqbIohsBKHk4jIWiX4jsDXoFTuHt93qRlOIWRfcA2IAtHlT3u9e2ve+TnHeoWdpdbKhHdzGZlvCI49DmpOBiC+qyVSE4f66JCZB21d4YjbJoclU9HiCU+c8fyyICV3tQ+tM3TOXFQCjxTv9N+lM2ZjDEJSS+ONRofQBkeWdU2CTSUnGphOjvWCJBcjZxa3UfZYv/iRU7YSWFv1E5J8HsfBj9yUkNXAfbf0NgMI1eM1CTcKZYwrOI5IsbrnMUidbDboYqyVBPG1AI0nKMx3n7/8G4+2zwAw/NjV9wzPPL+EM662XFBwpFijLW/suE6aGXwacYMAGdM1DMmuVIPRnIGow9LzpTBfJtoCqhWocSKCD2AmPBjPvInu89ZTnEwHbgIjyVpwL84NAoeEFp/gEKMK1wKcjFj2j22JGMn3MsOu1PDoDyA1DY8aqmxyrTgQMguTx+8PZX7IUvtypqcIDvHE+XthMoKv0q/WhQOZvvbvxdEEZ1ervV2iGoBXjzXe/1NXVSDD+OOuti7prE3QP0WYG+4KTyStoPQEwVkGDfXcw2nrjO0W51cIzhjAuOK/Ze3LdjCL7XajL/mjMojY1asrGNRvDKwRpj2gzHsOUlJ7XR5A3yFG/i9R1Zxhvtqt0wbCaj2YAHOeuc2XiM163Stij+Fll6joEJNiKxGDOkfYPCBuspl4+xqddKfkPOXN0uC+QjrnA9ttgdpZunhGwoV/A6/rrks6m1hjrNJYi+sFwywr47rOGwcIjLcB55TzP84i3W0sRcWz6OYJc8RyH6YgKgYGQ0Q6Vv3v6x/M+UyaH8PdAw/51UzxbMtLOsC6esks2Ftv+IChcNaWdQROeqiam5KvHu3T5Vp/yeK3yXs5cL1/YsuNDL63ehYcYPNuOCp4k1Bt0Z2DG0fMtZdJdthjFQCiFsMQPYrlTE+ZRg5/flslEaadpKMjYzijY17wxLNA9/o6OB+BoARB8FDZJ0mkiXSBkW03SQE7KncZzppy2C2l5tlm0kTZuhxqxHLFcrv+LqZCNXllipXg+ELTN0kdQ4BSv+2NvLPzB/6ETS+IU8xfJQUrzOc1lOgHbZ8qby3wgzDcwWcqUcnoXf5Oxg774EbkQbD0p6LRi1oumofm/ehqOMLItc7wDRUS7CvtFVnkAY10RjNlBacrmDvJnwgboRZ3WMD7VwSkZ91g==","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
@@ -107,35 +131,74 @@ function koku(n) {
   return `${sign}${a}石`;
 }
 
-async function publish(topic, obj) {
+// ---- 通信: ntfy.sh と公開 MQTT ブローカー2つの計3系統。どれか1つ届けば動く ----
+const BROKERS = ["wss://broker.hivemq.com:8884/mqtt", "wss://broker.emqx.io:8084/mqtt"];
+const LINK = { ntfy: false };
+let mqttClients = null, statusCb = null;
+const mqttTopic = (topic) => `syuri-joso/${topic}`;
+function linkChanged() { if (statusCb) statusCb(Object.values(LINK).some(Boolean)); }
+
+function ensureMqtt(topic, onMsg) {
+  if (mqttClients || typeof mqtt === "undefined") return mqttClients || [];
+  mqttClients = BROKERS.map((url, k) => {
+    const key = `mqtt${k}`; LINK[key] = false;
+    const c = mqtt.connect(url, { clientId: `joso_${Math.random().toString(16).slice(2, 12)}`, connectTimeout: 8000, reconnectPeriod: 3000, clean: true });
+    c.on("connect", () => { LINK[key] = true; linkChanged(); c.subscribe(mqttTopic(topic)); });
+    c.on("close", () => { LINK[key] = false; linkChanged(); });
+    c.on("error", () => {});
+    c.on("message", (_t, buf) => { try { if (onMsg) onMsg(JSON.parse(buf.toString())); } catch (e) { /* 形式違いは無視 */ } });
+    return c;
+  });
+  return mqttClients;
+}
+
+async function publishNtfy(topic, body) {
   try {
-    const res = await fetch(`${NTFY}/${topic}`, { method: "POST", body: JSON.stringify(obj) });
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 8000);
+    const res = await fetch(`${NTFY}/${topic}`, { method: "POST", body, signal: ctl.signal });
+    clearTimeout(timer);
     return res.ok;
   } catch (e) {
-    console.warn("publish failed", e);
     return false;
   }
 }
 
+async function publish(topic, obj) {
+  const body = JSON.stringify(obj);
+  let sent = false;
+  // state は「最新の状態」として保持（retain）し、後から開いた人にも届くようにする
+  (mqttClients || []).forEach((c) => {
+    if (c.connected) { c.publish(mqttTopic(topic), body, { qos: 0, retain: obj.type === "state" }); sent = true; }
+  });
+  const ok = await publishNtfy(topic, body);
+  return sent || ok;
+}
+
 async function fetchRecent(topic, since) {
   try {
-    const res = await fetch(`${NTFY}/${topic}/json?poll=1&since=${since}`);
+    // 通信サービスが応答しないときに画面が止まらないよう、5秒で打ち切る
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 5000);
+    const res = await fetch(`${NTFY}/${topic}/json?poll=1&since=${since}`, { signal: ctl.signal });
+    clearTimeout(timer);
     if (!res.ok) return [];
     const text = await res.text();
     return text.split("\n").filter(Boolean).map((l) => {
       try { return JSON.parse(JSON.parse(l).message); } catch (e) { return null; }
     }).filter(Boolean);
   } catch (e) {
-    console.warn("poll failed", e);
     return [];
   }
 }
 
 function subscribe(topic, onMsg, onStatus) {
+  statusCb = onStatus;
+  ensureMqtt(topic, onMsg);
   let retry = 1000;
   const open = () => {
     const es = new EventSource(`${NTFY}/${topic}/sse`);
-    es.onopen = () => { retry = 1000; if (onStatus) onStatus(true); };
+    es.onopen = () => { retry = 1000; LINK.ntfy = true; linkChanged(); };
     es.onmessage = (ev) => {
       try {
         const outer = JSON.parse(ev.data);
@@ -144,10 +207,10 @@ function subscribe(topic, onMsg, onStatus) {
       } catch (e) { /* 形式の違うメッセージは無視 */ }
     };
     es.onerror = () => {
-      if (onStatus) onStatus(false);
+      LINK.ntfy = false; linkChanged();
       es.close();
       setTimeout(open, retry);
-      retry = Math.min(retry * 2, 15000);
+      retry = Math.min(retry * 2, 30000);
     };
   };
   open();
@@ -160,6 +223,33 @@ function toast(msg, kind) {
   document.body.appendChild(el);
   setTimeout(() => el.classList.add("out"), 2600);
   setTimeout(() => el.remove(), 3200);
+}
+
+// 判子の演出（加増・切腹・謹慎など）。加増のときは紙吹雪も出す
+function stamp(text, kind, sub) {
+  const wrap = document.createElement("div");
+  wrap.className = `stampwrap ${kind || ""}`;
+  wrap.innerHTML = `<div class="stamp"><span>${esc(text)}</span></div>${sub ? `<div class="stampsub">${esc(sub)}</div>` : ""}`;
+  document.body.appendChild(wrap);
+  if (kind === "ok") confetti();
+  setTimeout(() => wrap.classList.add("out"), 1900);
+  setTimeout(() => wrap.remove(), 2500);
+}
+function confetti() {
+  const colors = ["#f5b942", "#ff7a45", "#ffe08a", "#ffffff", "#e8434f"];
+  const box = document.createElement("div");
+  box.className = "confetti";
+  for (let k = 0; k < 60; k++) {
+    const p = document.createElement("i");
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.background = colors[k % colors.length];
+    p.style.animationDelay = `${Math.random() * 0.4}s`;
+    p.style.animationDuration = `${1.6 + Math.random() * 1.2}s`;
+    p.style.transform = `rotate(${Math.random() * 360}deg)`;
+    box.appendChild(p);
+  }
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 3200);
 }
 
 function startApp(){
@@ -210,7 +300,7 @@ let kinshinUntil = 0, kinshinTimer = null;
 function enterKinshin() {
   kinshinUntil = Date.now() + KINSHIN_MS;
   const btn = $("joso"); btn.classList.add("kinshin"); btn.disabled = true;
-  $("josomsg").textContent = "謹慎";
+  $("josomsg").textContent = "謹慎"; stamp("謹慎", "wait", "連打はご法度");
   clearInterval(kinshinTimer);
   const tick = () => {
     const left = Math.ceil((kinshinUntil - Date.now()) / 1000);
@@ -258,7 +348,7 @@ function onMsg(m) {
   state = m; render();
   if (m.last && m.last.name && m.last.ts > Date.now() - 15000) {
     const ok = m.last.kind === "ok";
-    toast(`${m.last.name} 殿、${ok ? "加増！" : "切腹…"}`, ok ? "ok" : "ng");
+    stamp(ok ? "加増" : "切腹", ok ? "ok" : "ng", `${m.last.name} 殿`);
   }
 }
 
