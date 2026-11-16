@@ -85,12 +85,10 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 <button class="joso" id="joso">上奏！</button>
 <div class="small" id="josomsg" style="text-align:center;margin:8px 0 16px"></div>
 <div class="card"><div class="h2">石高ランキング</div><ul class="board" id="board"></ul></div>
-<div class="card" id="samplebox"><div class="small">例題の答え合わせ（出題前の練習用）</div>
-<nav><button class="s grow" id="shb">ヒント 0/3</button><button class="grow" id="sab">答えを見る</button></nav><div id="shints"></div>
-<div class="card anscard hidden" id="sansbox"><div class="label">ANSWER</div><div class="ans" id="sans"></div></div></div>
+</div>
 </div>
 </div></div>
-<script>let DATA=null;const ENC={"salt":"ZDRaYOu7WjDQ3TnWl9JkXw==","iv":"t0TlY44FNomo5iSs","ct":"rCJf+TMygJYktgZcQMabdfZ5B/r+lIffhZxwoDKEb/LJqPFniTP8xlUtQ6sLu9t0qCjJWWyIXILrt+VP5tETALEkZ8IgZImux+VmQBg7qQ4SHWg6jyzZp6Rme9z/mOWiKIrKpPBXavRcBsKbLtHN4XHkOQujDy550BwZnXtal9hQ1lAq9jgLONskxAdy7bP+oU+YpR3K7Jeey2kK6Ay8VczjBn/aFqiS5AFv+Y/4fFaPeLGXeuOJXQios+rufDBOzwseb9nEVYBzLG7k/QJvhHjLvwwKxHq0WJhT4SeVR0Nz2vOFUL/179eHpGCe1pZ8rjHAgtZBFj/ezhWwmTZidsNoG4k4ZVR38+h70wDmzBB5X5apqR1JIzo/6n/mDabg1IwAA4561auhvySOBv5bMy2rfYm62vSMkdkhT3vN38xAcuJp5cUm45OiLPbBrQs0TKPkvq0b59NeacU93ZvOWKSG0nuIiqlmofvsagb439n+R1Aqnr478Hs3WLptpkqYTLWrBpYyVv3CF3Yh8i4a61D9l0iWbpqGQXundf0K0jh3d5XY0OmWW2bqPj4mHmu/yyPQcThdCjd4jyOUd/8B6fnMV0W/cHU1pBVfePLNqkte80QuLcMb+29ciSXPPP6aKlNKxXrA2IXU23GA7YQOso74TzCvzARVfBDT398rBiZEf5HQ3Cjjqx5lNlHmSe6u3kz24dmicszOKP+9kDw87F/Zks7KyNy2cGYIaJ820ao/eEGtp5UeMttLDUvpAXruPcJ/kP8/vjGvQw/shSJWqXs3mJmobd8nvKudbxrL9VRayp9ynQ/0BzXDT0NVb3cUwSqZ8A30z44t4ll8VsiOfspLqL9EcxxcZWVU+CVtnOKM672DKZnttPZSn4egK0CheQd+oB43l1SiG4xSDQQmF52n3ItJUAZlWN0dkaRKqkCKj+WlcnUA4rKXsBW+/XD8kyRF7Zx1VeLBH8L18ze6TrxL+CzNRHp8apsq4q8ysHkgUNrrpiCG5I63zPtN9i72dQWhocVBDp9aj/7KEiq5cfUeSBU7hTGVbSeOe43dX8EOvv0QNLUCpOiU8okhDXIgMMZzOEyuwfCXM4GCv+hcXngnAimasVsl1UQ=","it":300000};
+<script>let DATA=null;const ENC={"salt":"cGTYhPoFnpjxX0oDANqTyg==","iv":"cl9fRrce4MVpbQCM","ct":"3/RbcTzI1o3mM1rQHkC0YSbzzGxQfeCeLAmiXdPf6S58UNOHcvfgtyEm05VszEoZNeC9p/pxkyKnnoynqbibx+RF7UJkmlKVbQiIexPKVRbmPfUZFGTPhUB4RN3TfhT+lkrQlCesTLvbF94xLBy4/sDDa99ng76rZG5XgKkNy2YfU0r7wEVrbROkDH45e997xflaoqMKRe5sCJxBU6yYJJEQNNAQ6/UUx4nIKvkVhVzBH8at4XFujSpUZEjxTuagBgsOvsA7f+RgBz8DuFYxFS0ftj+r/JKc0BYbhmY02fBplUL95iEMEqWxJYjKFWrTfkC3vzfhW86hz9/UginHjyOvrfhoP1W9N9mDXFWzzEFeua5770QPMQzKDvhEIXqr3HwT446m4gX7/Xd5UkrjBlUirDFN1OFXxT+qH4hdanmk3UjKlctW8G3j9I4svSVYyjzdPhifS3VeBu1p0iZlMRnBVyUsQQi5KqtmIGsu3c9CdY/yBUU9mzFzKaLY84wBfDAllPezZ5FFKNf3HKJCMyircML5FCviG9hhTo4Sx9+AQdK/nAvurft+dBsaUqSyOQTdORyKC+hvyxyCop6csTrOFkVRkeKATgM2CgtyFt+A9MwHGhFCOYjDcDltuP2U7JYuYMs0FUqe2r/t24j851+nC9WDHiA9a2cTnxYC6hiGXtMMJ+6M5Jkryzzu0abfzbjqE/+KLNuZ8AjbTB3IcyHOO+S6r1xKT46X0p7X8ueatQagn25QJIeqfbVg7wGTWJXI9pA1ooCpr6n4z7d2PUdpTW9VkuFp3uE0j61+wAUhZJ80jFdH0U6YLwQLcFY3sDZaEfEGxtuVGqidTDW5NSJAEsPzL7X+ZYtiBZ5n2kvhGr5K0Tpe1oJIVPorZz1QQhUgi1aMglCrhTaQKTivRL/OYKeamee7Dk4ECTIR9mp82ieVZxrGGl52BUw+3ueKzLPADHryoW82JZ3gSI+wEar6mlTDLvISQ0T6JxMHIlloxILJugzx5KJWjKmRJdt/rJcZ8qyTfiqEjWGY15tCo2Dqu0E/oWenwI/hJVmrjNy4EJxCibBAUl0qfIBq2X93KvmC7Z3TUm2It7xlbSXhrlgd8sOwAYJVJKw=","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
@@ -189,15 +187,14 @@ function render() {
   $("mykoku").textContent = koku(sc[me] || 0);
   const cur = state?.cur;
   if (cur) {
-    $("qno").innerHTML = `Q.${String(cur.no).padStart(2, "0")}<small>/ ${cur.total}</small>`;
-    $("q").textContent = cur.q; $("qnote").textContent = ""; $("samplebox").classList.add("hidden");
+    $("qno").innerHTML = cur.no ? `Q.${String(cur.no).padStart(2, "0")}<small>/ ${cur.total}</small>` : "例題";
+    $("q").textContent = cur.q; $("qnote").textContent = "";
   } else {
     $("qno").textContent = "例題"; $("q").textContent = DATA.sample.q;
-    $("qnote").textContent = "出題が始まると、ここに本番の問題が自動で表示されます。今は上奏ボタンのテストができます。";
-    $("samplebox").classList.remove("hidden");
+    $("qnote").textContent = "出題を待っています。出題者が出題すると、ここに問題が自動で表示されます。上奏ボタンのテストはいつでもできます。";
   }
   $("hints").innerHTML = (cur?.hints || []).map((h, i) => `<div class="hint"><b>HINT ${i + 1}</b>${esc(h)}</div>`).join("");
-  const ansText = cur ? cur.ans : (state?.sampleAns ? DATA.sample.a : null);
+  const ansText = cur ? cur.ans : null;
   if (ansText) { $("ansbox").classList.remove("hidden"); $("ans").textContent = ansText; } else $("ansbox").classList.add("hidden");
   const names = [...new Set([...(state?.roster || DATA.roster), ...Object.keys(sc)])];
   const rows = names.map((n) => [n, sc[n] || 0]).sort((a, b) => b[1] - a[1]);
@@ -233,7 +230,7 @@ $("joso").onclick = async () => {
   const ok = await publish(TOPIC, { type: "joso", name: me, no, ts: now, id: `${me}-${now}` });
   if (Date.now() < kinshinUntil) return;
   $("josomsg").textContent = ok
-    ? (no ? `第${no}問に上奏しました。出題者の沙汰を待て。` : "例題で上奏しました（テスト）。出題者の画面に届いています。")
+    ? (no ? `第${no}問に上奏しました。出題者の沙汰を待て。` : "例題に上奏しました。出題者の沙汰を待て。")
     : "送信できませんでした。電波を確認してもう一度。";
 };
 
@@ -269,16 +266,6 @@ function onMsg(m) {
   subscribe(TOPIC, onMsg, (on) => { $("live").classList.toggle("on", on); $("livet").textContent = on ? "LIVE" : "再接続中"; });
 })();
 
-let sh = 0;
-$("shb").onclick = () => {
-  if (sh >= DATA.sample.hints.length) return;
-  const e = document.createElement("div"); e.className = "hint"; e.innerHTML = `<b>HINT ${sh + 1}</b>`; e.append(DATA.sample.hints[sh]);
-  $("shints").appendChild(e); sh++; $("shb").textContent = `ヒント ${sh}/3`;
-};
-$("sab").onclick = () => {
-  $("sans").textContent = DATA.sample.a;
-  const x = $("sansbox").classList.toggle("hidden"); $("sab").textContent = x ? "答えを見る" : "答えを隠す";
-};
 
 }
 
