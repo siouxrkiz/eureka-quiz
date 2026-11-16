@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>しゅり配信うんちく上奏</title><style>
+<meta name="robots" content="noindex"><title>しゅり配信うんちく上奏クイズ</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Outfit:wght@500;800&display=swap');
 :root{--bg:#0c0d12;--bg2:#141621;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--fg:#f2efe9;--sub:#8e8c99;
 --gold:#f5b942;--gold2:#ff7a45;--blue:#6aa8ff;--glow:rgba(245,185,66,.35)}
@@ -69,15 +69,15 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 .guide summary{cursor:pointer;font-weight:700}.guide ol,.guide ul{margin:6px 0 14px;padding-left:1.3em}.guide li{margin:4px 0;font-size:14px}.guide li::marker{color:var(--gold)}
 .pk{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}.pk input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--gold)}
 </style></head><body><div class="wrap"><div id="lock"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">2026.11.22</span></header>
-<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>参加者用のパスワードを入れてください。一度入れると、次からは自動で開きます。</div>
+<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏クイズ</div>参加者用のパスワードを入れてください。一度入れると、次からは自動で開きます。</div>
 <div class="card"><div class="inrow"><input type="password" id="pw" placeholder="パスワード" autocomplete="current-password"><button class="p" id="pwok">開く</button></div><div class="small" id="pwmsg" style="margin-top:8px"></div></div></div>
 <div id="app" class="hidden"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
-<div id="pick" class="hidden"><div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>まず、あなたは誰ですか？</div>
+<div id="pick" class="hidden"><div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏クイズ</div>まず、あなたは誰ですか？</div>
 <div class="names" id="names"></div>
 <div class="card" style="margin-top:14px"><div class="small">名簿にいない場合</div><div class="inrow"><input type="text" id="other" placeholder="名前を入力"><button class="p" id="otherok">決定</button></div></div></div>
 <div id="main" class="hidden">
 <div class="card row"><div class="who"><b id="me"></b><span class="small">殿</span><a id="change">変更</a></div><div class="koku" id="mykoku"></div></div>
-<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>ボタンを押して回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
+<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏クイズ</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>ボタンを押して回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
 <div class="card row hidden" id="timerbox"><div class="h2">残り時間</div><div class="timer" id="ptm">2:00</div></div>
 <div class="card qcard swap" id="qc"><div class="qno" id="qno"></div><div class="q" id="q" style="margin-top:14px"></div><div class="small" id="qnote" style="margin-top:10px"></div></div>
 <div id="hints"></div>
@@ -88,7 +88,7 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 </div>
 </div>
 </div></div>
-<script>let DATA=null;const ENC={"salt":"cGTYhPoFnpjxX0oDANqTyg==","iv":"cl9fRrce4MVpbQCM","ct":"3/RbcTzI1o3mM1rQHkC0YSbzzGxQfeCeLAmiXdPf6S58UNOHcvfgtyEm05VszEoZNeC9p/pxkyKnnoynqbibx+RF7UJkmlKVbQiIexPKVRbmPfUZFGTPhUB4RN3TfhT+lkrQlCesTLvbF94xLBy4/sDDa99ng76rZG5XgKkNy2YfU0r7wEVrbROkDH45e997xflaoqMKRe5sCJxBU6yYJJEQNNAQ6/UUx4nIKvkVhVzBH8at4XFujSpUZEjxTuagBgsOvsA7f+RgBz8DuFYxFS0ftj+r/JKc0BYbhmY02fBplUL95iEMEqWxJYjKFWrTfkC3vzfhW86hz9/UginHjyOvrfhoP1W9N9mDXFWzzEFeua5770QPMQzKDvhEIXqr3HwT446m4gX7/Xd5UkrjBlUirDFN1OFXxT+qH4hdanmk3UjKlctW8G3j9I4svSVYyjzdPhifS3VeBu1p0iZlMRnBVyUsQQi5KqtmIGsu3c9CdY/yBUU9mzFzKaLY84wBfDAllPezZ5FFKNf3HKJCMyircML5FCviG9hhTo4Sx9+AQdK/nAvurft+dBsaUqSyOQTdORyKC+hvyxyCop6csTrOFkVRkeKATgM2CgtyFt+A9MwHGhFCOYjDcDltuP2U7JYuYMs0FUqe2r/t24j851+nC9WDHiA9a2cTnxYC6hiGXtMMJ+6M5Jkryzzu0abfzbjqE/+KLNuZ8AjbTB3IcyHOO+S6r1xKT46X0p7X8ueatQagn25QJIeqfbVg7wGTWJXI9pA1ooCpr6n4z7d2PUdpTW9VkuFp3uE0j61+wAUhZJ80jFdH0U6YLwQLcFY3sDZaEfEGxtuVGqidTDW5NSJAEsPzL7X+ZYtiBZ5n2kvhGr5K0Tpe1oJIVPorZz1QQhUgi1aMglCrhTaQKTivRL/OYKeamee7Dk4ECTIR9mp82ieVZxrGGl52BUw+3ueKzLPADHryoW82JZ3gSI+wEar6mlTDLvISQ0T6JxMHIlloxILJugzx5KJWjKmRJdt/rJcZ8qyTfiqEjWGY15tCo2Dqu0E/oWenwI/hJVmrjNy4EJxCibBAUl0qfIBq2X93KvmC7Z3TUm2It7xlbSXhrlgd8sOwAYJVJKw=","it":300000};
+<script>let DATA=null;const ENC={"salt":"u2hD1kLOCO2Jg9+2N8ILEg==","iv":"2IeAc3vFCI5YvcwA","ct":"asTBkZyZJRf9szdL5BKPtzFqaTrrnXc5QX9D179w26CpGB+t2yf7+5UcyilkLGfxnFPvwdG2IU3ikdr41088F5ZLJua/1FixJ+qDHeyA/5T7hgwG3fvpnZsa2/J33X7xPxg/DZa+2ieCY6XTbHKF2iLkxbZrRtrc4Zh33KJzrz8x8wml+RrAiQd/7YGuvjlveWhAcKCzMqyKNB7AW5NSnU65vkzzM34U8pr2NCpONBq625g0v5zg1YbsFq51ittm+y0BWqLJk/O1JWVdn93TBfE4/jteirXh3nLFkRe1NVpVOFSU69PXL8mOrPMmbRcvZzFh4IYKGaiEQyJts7o8MxIRmnp42UNpwVyS/5VWSik/nnpGaiWFAA2j3LNyu/I6y4KnYbDa1u5C12QrdyACuL5iHDTIfGr1M1Z4Xz7TWtcPA8pIRUrnJ2JgdTGOp5tZ0GNrKV9Emp+3yeIfzfeOtlqO7gva88CpUhq/uRhHbcuW1WHEmHxHKnSI0tF3aS07ET9TeNK5HWVOcpNWdouicDpBuYdcWwOqIwrN9k6UgM+Bvzdi6rTurUdreGkZLExwnmcAyZN0yL+E+sZ5R0obSKLtNrjN4Nx4Bvd1DnENNw9ytwFRl5tTAgKFFLENJeqMKlDnnnpbABMzqTGuYjcGf2niZtgug2LynEZC9MxmrNv4gOc6ArKKvVXO25y7lWWwww5gRIVLEZ7qU0VH0yn9Y0M7SuNeDxicF3nysB3U6FUL7qnatyIdUh8QbyiGULaw2JSbbTP7HavWil2GA2K8k5ae4JQa+MxL6GxksPwcqNizmAMDrwd2olcGVioy5/7GVENlksk1IU8WtXKPswvO5B7wyE/SJ+Xi/TEEOmc6XvGo2+qbQnvkZ5kzfsGfY3bJz5m0vnvBiibJFF4B/DM5PjRjz0gF0DZwCtnNs7eaAgNoNCni0uJYN62L3mrjVCnvG7ypN12xmcd+EVtrg0HeSqGdPaLou3c1XtVaWasOfl9HHGZWkulv2jpzLXvRP0QHYtUKPnYDJgtR/d7ivfYZiSdQJqIvA8gIF2frOHsSfgsaABzrRQHY03hjqbU8fKhvFhdcpj9Wuou94GYSbHSpBjrMpAPSbVju45c=","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
