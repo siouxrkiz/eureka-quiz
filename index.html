@@ -1,5 +1,5 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>しゅり配信うんちく上奏</title><style>
+<meta name="robots" content="noindex"><title>しゅり配信うんちく上奏</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Outfit:wght@500;800&display=swap');
 :root{--bg:#0c0d12;--bg2:#141621;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--fg:#f2efe9;--sub:#8e8c99;
 --gold:#f5b942;--gold2:#ff7a45;--blue:#6aa8ff;--glow:rgba(245,185,66,.35)}
@@ -64,7 +64,10 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 .small{font-size:12px;color:var(--sub)}
 .mini{padding:6px 10px;font-size:12px;border-radius:10px}
 .inrow{display:flex;gap:8px;align-items:center;margin-top:8px}
-</style></head><body><div class="wrap"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
+</style></head><body><div class="wrap"><div id="lock"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">2026.11.22</span></header>
+<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>参加者用のパスワードを入れてください。一度入れると、次からは自動で開きます。</div>
+<div class="card"><div class="inrow"><input type="password" id="pw" placeholder="パスワード" autocomplete="current-password"><button class="p" id="pwok">開く</button></div><div class="small" id="pwmsg" style="margin-top:8px"></div></div></div>
+<div id="app" class="hidden"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag"><span class="live" id="live"></span><span id="livet">接続中</span></span></header>
 <div id="pick" class="hidden"><div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>まず、あなたは誰ですか？</div>
 <div class="names" id="names"></div>
 <div class="card" style="margin-top:14px"><div class="small">名簿にいない場合</div><div class="inrow"><input type="text" id="other" placeholder="名前を入力"><button class="p" id="otherok">決定</button></div></div></div>
@@ -81,8 +84,8 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 <nav><button class="s grow" id="shb">ヒント 0/3</button><button class="grow" id="sab">答えを見る</button></nav><div id="shints"></div>
 <div class="card anscard hidden" id="sansbox"><div class="label">ANSWER</div><div class="ans" id="sans"></div></div></div>
 </div>
-</div>
-<script>const DATA={"topic": "syuri-joso-54f8c517e6b0", "roster": ["syuri", "tefu", "LANCEL", "kwkn", "temawari", "ssynjya", "つぐさん", "Saya3", "rekaizu"], "sample": {"q": "ある人は、行きつけの店で、いつもなら付いてくるはずのものが、いつの間にか出てこなくなった。店と揉めたわけではない。たまに出てきたときは、店員に謝られて下げられた。なぜ？", "hints": ["行きつけの店は中華料理屋", "出てこなくなったのは、定食に付いてくる『あるもの』", "その人は、それにいつも手を付けていなかった"], "a": "その人がセットのスープを毎回飲まずに残していたので、店が『この客にはスープは要らない』と覚えて、付けなくなったから。（2021年、syuri の実話）"}};
+</div></div>
+<script>let DATA=null;const ENC={"salt":"KjFmmHATvuvhhLzBD0NZEQ==","iv":"Xtkabm5XoTEF1W+g","ct":"dTZd3/W/OZo9HBjJsbfiffyw1u6r/B/tSDlQucq3XjmClufelyZG1oxcL762TArLi2tFVEIbgDjM5r1DaUK7ABTF9o/0ZsYVA825KZ67KkS5uM+vuing98jVVQvUR8tDdOxTUBvS7W2GFyqenAM0D6DWGIK9+u8eDqh/pCcbOTVGjmrGe6bBQBP4zvoMJvDeJdPPBjlebiEWyo7upo2Bxz6nQk6AMnt5Mci+vPQgXdMKSpsx/tGD3+dVIgTV8bxDaAF1MW+QebJNfzrE374IWdVa4cMmY4GPO2orMzpVZqEydN/FdRX8HgmXa9WWzFQcjMVQgXGI7atq0bzBo30oZ1myIOfp5Kt7dVAbVvxaJSBb7w4GQVDmm5hovQk4EcdeONdGGi+tJNygElcDFGginAKeNVmtVxj5Q9jfETHTMT2z9ixHgF7+2ILlGBTbMiMBSWWi5R05jR7yHj/r5GmjEgd9u8ZSEfCLlzLkAoJWkBA2FvrNQaqLxK1BR1F3SkTQJfHw5q1xrb2uAfdyr+hFkoaCSl0SzWM1qki8SQb69S/afpJMob4ctuACtklguFU3BU9Xggcuu+C8PGHXzUkWimV7ZoOcikUdpcmj4YGrtSZfU/K9gqDuE0c3BkSrZdWTl1Hf7swc+TXjen6XEQyrGIu0nWtIogJtTMYgWjxKJ2cN1HrxPMpOwxmUCstfEmoW27o7v/JZJY9+LiMGmKHuZAbYVFCzkcqvUkNq+IQDYIgAxczfxidj1v8Kb1FIxPuCSzDF+l6hV2EYgytswfasL3bH2dM9yMkvRYQsAet17AH7U4nqvnJoZ1gJx2zROu+4u1pAt8FzGh6L2s/UqYkQYSRy3+IRlIsjJe6DmfvBnSHzVwCYq/veSup0xKf9D0MRYaNHaaAF5PZSlFuUb0tF2pNhfoAqTomXdwnY6yFd45Vzfgo55BrU7XN5DvRhsNlrj1HiSr6G2FT5mA5Wj+Af1GIXAh4mLeXdXfTvjEroA7YMmheimzlm7kttX85jPA5Cf3a3pGja55e/uIg5PizBK0xT6ds7qeyzbS7Z955KjACrYRqul9s7uLb7vnc3ZhWVVjOHMzSI+pccncoEjNUWzbEH4d93Neo4uWc=","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
@@ -153,6 +156,7 @@ function toast(msg, kind) {
   setTimeout(() => el.remove(), 3200);
 }
 
+function startApp(){
 const TOPIC = DATA.topic;
 const $ = (id) => document.getElementById(id);
 let me = null, state = null, lastJoso = 0;
@@ -232,4 +236,17 @@ $("sab").onclick = () => {
   $("sans").textContent = DATA.sample.a;
   const x = $("sansbox").classList.toggle("hidden"); $("sab").textContent = x ? "答えを見る" : "答えを隠す";
 };
+
+}
+
+async function unlock(pw){const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));const e=new TextEncoder();
+ const base=await crypto.subtle.importKey('raw',e.encode(pw),'PBKDF2',false,['deriveKey']);
+ const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(ENC.salt),iterations:ENC.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+ const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(ENC.iv)},key,b(ENC.ct));return JSON.parse(new TextDecoder().decode(pt))}
+async function tryOpen(pw,remember){document.getElementById('pwmsg').textContent='確認中…';try{DATA=await unlock(pw)}catch(e){document.getElementById('pwmsg').textContent='パスワードが違います';try{localStorage.removeItem('joso-playpw')}catch(x){}return}
+ if(remember){try{localStorage.setItem('joso-playpw',pw)}catch(e){}}
+ document.getElementById('lock').classList.add('hidden');document.getElementById('app').classList.remove('hidden');startApp()}
+document.getElementById('pwok').onclick=()=>tryOpen(document.getElementById('pw').value.trim(),true);
+document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')document.getElementById('pwok').click()};
+(()=>{let s=null;try{s=localStorage.getItem('joso-playpw')}catch(e){}if(s)tryOpen(s,false)})();
 </script></body></html>
