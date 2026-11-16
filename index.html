@@ -78,6 +78,7 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 <div id="main" class="hidden">
 <div class="card row"><div class="who"><b id="me"></b><span class="small">殿</span><a id="change">変更</a></div><div class="koku" id="mykoku"></div></div>
 <div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>ボタンを押して回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
+<div class="card row hidden" id="timerbox"><div class="h2">残り時間</div><div class="timer" id="ptm">2:00</div></div>
 <div class="card qcard swap" id="qc"><div class="qno" id="qno"></div><div class="q" id="q" style="margin-top:14px"></div><div class="small" id="qnote" style="margin-top:10px"></div></div>
 <div id="hints"></div>
 <div class="card anscard hidden" id="ansbox"><div class="label">ANSWER</div><div class="ans" id="ans"></div></div>
@@ -89,7 +90,7 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 <div class="card anscard hidden" id="sansbox"><div class="label">ANSWER</div><div class="ans" id="sans"></div></div></div>
 </div>
 </div></div>
-<script>let DATA=null;const ENC={"salt":"7SAe2ElgiKvvQaDfKIK0pg==","iv":"zelfjUzhZRhcWcEI","ct":"n8OuTpdvLPkRw76anDqoESIHy2h6vDGpYfdzjlMIQqP9HfB3nIxPgvNqcVfHO9oXWTq0VclR9zHyFYc04XcCTV8B3WaN/IGlzJT9fdEcl3qrLHleoJk+ni8OakY0THdEyunlxE/9Q6Unf4zdE4FPJ7BfVG1Z3ZRqQ+zLY9+NQY2+caTG4pCEk59mD+YDtBtS314HIgDgRq7zbBHsakWniLi0fuTdeNB2xUzf6dCTwCa01EV/pDU/Kq/iKJ1St6CPpe+q4P+sGgrSjSVOORyl5Y3Nrob/cdNUqOFa7pXKPucVV+HdzmtIFoyuEki6h+T9PFOpKpph+AMRX8t8h7XeB3W+I/eEIvxbucwFmIheMlIBlDsDp4hjGOYVAiYl9FhFf7O9N9J9gswlSWiftjRmV76ryiKJJ2Xef7DYHdXeVuqrHjIV0hlvjvuvxKaWtFYneemQcK/dFSWSw8fz8NO483ezD3mljp6c9fC9dPdf4rpMg/h0HF7L6JgHI4yiWiSaMIjIYiR9dyvXQgsXP/ssvNMm3JRLnwnv26X4F/NpFO7l6pGM7mm/J1KfUd4V222dAm/Q8+vhufPyty+LsclzlBBsyFgMEvLtUdrw9ucMUTzFHjbqUIxyEGt9hHUDOAl0aK1N9n+yn49DxoaELTQT96vixXVeE8kHX4fKBIr0cQ4wtDhyAJ3G5p9gPy04LcdvgHoWh5XPgcDWGIumDYJOelcHX0XVK9LuYECVHopbSTDseVB6aQKCe8PWoDhiENVQ8alFbcGr/QlLp5OOKfJuA24WmO+/2UzaInymDGQRbsnlHrxHOVquXUlHLHpGsv0hCuvV6RkMkOxKq2KBoTcw7j+n//iuoG0oJ5meT1F+EL6aEdxtCz5iFvPlkKEFkhfAc0qseP55z0hNjjQJvz9NeqlMVvGiz/wC0xc+Vp4ze/niyo4HVTb0Dd88HuKAsSv2PECnyGOKN+KjO16iq4vrcQNaN36JZ+B6d6QbuJuIeHU/IYpmc6sc1CGVPmUePrWLQUVLxQx2E2hV7fTr8g5AI3fNna+eJ/MDXk0B5VY8XjGb3t2HlUQ2KRM2ayNVc9Id+KYyO1fC+IzCSQdARMp5M9Aep+sLrfltgJg=","it":300000};
+<script>let DATA=null;const ENC={"salt":"ZDRaYOu7WjDQ3TnWl9JkXw==","iv":"t0TlY44FNomo5iSs","ct":"rCJf+TMygJYktgZcQMabdfZ5B/r+lIffhZxwoDKEb/LJqPFniTP8xlUtQ6sLu9t0qCjJWWyIXILrt+VP5tETALEkZ8IgZImux+VmQBg7qQ4SHWg6jyzZp6Rme9z/mOWiKIrKpPBXavRcBsKbLtHN4XHkOQujDy550BwZnXtal9hQ1lAq9jgLONskxAdy7bP+oU+YpR3K7Jeey2kK6Ay8VczjBn/aFqiS5AFv+Y/4fFaPeLGXeuOJXQios+rufDBOzwseb9nEVYBzLG7k/QJvhHjLvwwKxHq0WJhT4SeVR0Nz2vOFUL/179eHpGCe1pZ8rjHAgtZBFj/ezhWwmTZidsNoG4k4ZVR38+h70wDmzBB5X5apqR1JIzo/6n/mDabg1IwAA4561auhvySOBv5bMy2rfYm62vSMkdkhT3vN38xAcuJp5cUm45OiLPbBrQs0TKPkvq0b59NeacU93ZvOWKSG0nuIiqlmofvsagb439n+R1Aqnr478Hs3WLptpkqYTLWrBpYyVv3CF3Yh8i4a61D9l0iWbpqGQXundf0K0jh3d5XY0OmWW2bqPj4mHmu/yyPQcThdCjd4jyOUd/8B6fnMV0W/cHU1pBVfePLNqkte80QuLcMb+29ciSXPPP6aKlNKxXrA2IXU23GA7YQOso74TzCvzARVfBDT398rBiZEf5HQ3Cjjqx5lNlHmSe6u3kz24dmicszOKP+9kDw87F/Zks7KyNy2cGYIaJ820ao/eEGtp5UeMttLDUvpAXruPcJ/kP8/vjGvQw/shSJWqXs3mJmobd8nvKudbxrL9VRayp9ynQ/0BzXDT0NVb3cUwSqZ8A30z44t4ll8VsiOfspLqL9EcxxcZWVU+CVtnOKM672DKZnttPZSn4egK0CheQd+oB43l1SiG4xSDQQmF52n3ItJUAZlWN0dkaRKqkCKj+WlcnUA4rKXsBW+/XD8kyRF7Zx1VeLBH8L18ze6TrxL+CzNRHp8apsq4q8ysHkgUNrrpiCG5I63zPtN9i72dQWhocVBDp9aj/7KEiq5cfUeSBU7hTGVbSeOe43dX8EOvv0QNLUCpOiU8okhDXIgMMZzOEyuwfCXM4GCv+hcXngnAimasVsl1UQ=","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
@@ -235,6 +236,21 @@ $("joso").onclick = async () => {
     ? (no ? `第${no}問に上奏しました。出題者の沙汰を待て。` : "例題で上奏しました（テスト）。出題者の画面に届いています。")
     : "送信できませんでした。電波を確認してもう一度。";
 };
+
+// 出題者のタイマーを表示（端末の時計で残りを計算）
+function timerLeft() {
+  const t = state?.timer; if (!t) return null;
+  return t.run ? Math.max(0, Math.round(t.left - (Date.now() - t.at) / 1000)) : t.left;
+}
+function renderTimer() {
+  const t = state?.timer, left = timerLeft();
+  const show = t && (t.run || left < 120);
+  $("timerbox").classList.toggle("hidden", !show);
+  if (!show) return;
+  $("ptm").textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+  $("ptm").classList.toggle("low", left <= 30);
+}
+setInterval(renderTimer, 250);
 
 function onMsg(m) {
   if (m.type !== "state") return;
