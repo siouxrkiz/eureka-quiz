@@ -1,0 +1,61 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>しゅり配信うんちく上奏 例題</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Outfit:wght@500;800&display=swap');
+:root{--bg:#0c0d12;--bg2:#141621;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--fg:#f2efe9;--sub:#8e8c99;
+--gold:#f5b942;--gold2:#ff7a45;--blue:#6aa8ff;--glow:rgba(245,185,66,.35)}
+:root[data-theme=light]{--bg:#f5f2ec;--bg2:#ebe6dd;--card:rgba(255,255,255,.8);--line:rgba(0,0,0,.08);--fg:#1c1b20;--sub:#6c6875;--glow:rgba(245,140,66,.25)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;color:var(--fg);font-family:"Zen Kaku Gothic New",system-ui,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(1200px 600px at 10% -10%,rgba(245,185,66,.12),transparent 60%),radial-gradient(900px 500px at 110% 10%,rgba(106,168,255,.10),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2) 900px);background-color:var(--bg2);min-height:100vh}
+html{background:var(--bg2)}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.logo{font-family:Outfit,sans-serif;font-weight:800;letter-spacing:.18em;font-size:13px;color:var(--sub);text-transform:uppercase}
+.logo b{background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-size:11px;letter-spacing:.12em;padding:4px 10px;border:1px solid var(--line);border-radius:99px;color:var(--sub)}
+.tag.secret{border-color:rgba(255,122,69,.5);color:var(--gold2)}
+.progress{height:3px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.dots button{width:30px;height:30px;padding:0;border-radius:50%;font:600 12px Outfit,sans-serif;border:1px solid var(--line);background:transparent;color:var(--sub);cursor:pointer;transition:.2s}
+.dots button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.qno{font-family:Outfit,sans-serif;font-weight:800;font-size:64px;line-height:1;letter-spacing:-.02em;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.qno small{font-size:16px;color:var(--sub);-webkit-text-fill-color:var(--sub);margin-left:8px;letter-spacing:.05em}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;margin-bottom:16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.qcard{padding:28px 26px;box-shadow:0 20px 60px -30px var(--glow)}
+.meta{font:500 12px Outfit,sans-serif;letter-spacing:.1em;color:var(--sub);margin:10px 0 14px}
+.q{font-size:clamp(20px,4.6vw,26px);font-weight:700;line-height:1.75;letter-spacing:.01em}
+nav{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+button{font:700 15px "Zen Kaku Gothic New",sans-serif;padding:12px 18px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;transition:transform .15s,background .2s}
+button:active{transform:scale(.97)}
+button.p{background:linear-gradient(135deg,var(--gold),var(--gold2));border:0;color:#1a1208}
+button.s{background:transparent;border-color:var(--blue);color:var(--blue)}
+.grow{flex:1}
+.hint{margin:10px 0;padding:14px 16px;border-radius:14px;background:var(--card);border:1px solid var(--line);animation:in .35s ease both}
+.hint b{font:800 12px Outfit,sans-serif;letter-spacing:.14em;color:var(--blue);display:block;margin-bottom:2px}
+.ans{font-size:19px;font-weight:700;line-height:1.7}
+.anscard{border:1px solid transparent;background:linear-gradient(var(--bg2),var(--bg2)) padding-box,linear-gradient(135deg,var(--gold),var(--gold2)) border-box;animation:in .4s ease both}
+.anscard .label{font:800 12px Outfit,sans-serif;letter-spacing:.2em;color:var(--gold);margin-bottom:6px}
+.memo{margin:8px 0 0;padding-left:1.1em}.memo li{margin:6px 0;color:var(--fg)}.memo li::marker{color:var(--gold)}
+.h2{font:800 12px Outfit,sans-serif;letter-spacing:.2em;color:var(--sub)}
+.timer{font:800 44px Outfit,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.timer.low{color:var(--gold2)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hidden{display:none}
+.rule{font-size:14px;color:var(--sub)}.ttl{font-size:26px;font-weight:900;line-height:1.35;color:var(--fg);margin-bottom:10px;letter-spacing:.02em}.rule b{color:var(--gold)}
+.eureka{font-weight:900;white-space:nowrap}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.swap{animation:in .35s ease both}
+</style></head><body><div class="wrap">
+<header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">SAMPLE</span></header>
+<div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>出題者に<b>「はい／いいえ」</b>で答えられる質問をして、真相を推理しよう。ひらめいたら <b class="eureka">「上奏！」</b>と叫んで回答。当たれば<b>加増</b>、外れたら<b>切腹</b>。</div>
+<div class="card qcard swap"><div class="qno">例題</div><div class="q" style="margin-top:14px">ある人は、行きつけの店で、いつもなら付いてくるはずのものが、いつの間にか出てこなくなった。店と揉めたわけではない。たまに出てきたときは、店員に謝られて下げられた。なぜ？</div></div>
+<div class="card rule" style="font-size:13px">本番は 11/22 のオフ会で出題します。これは遊び方を試すための例題です。<br>本番では出題者がヒントを出しますが、例題ではボタンで確認できます。</div>
+<nav><button class="s grow" id="hb">ヒント 0/3</button><button class="p grow" id="ab">答えを見る</button></nav>
+<div id="hints"></div>
+<div class="card anscard hidden" id="ansbox"><div class="label">ANSWER</div><div class="ans">その人がセットのスープを毎回飲まずに残していたので、店が『この客にはスープは要らない』と覚えて、付けなくなったから。（2021年、syuri の実話）</div></div>
+</div><script>
+const H=["行きつけの店は中華料理屋", "出てこなくなったのは、定食に付いてくる『あるもの』", "その人は、それにいつも手を付けていなかった"];let h=0;const $=id=>document.getElementById(id);
+$('hb').onclick=()=>{if(h>=H.length)return;const e=document.createElement('div');e.className='hint';e.innerHTML='<b>HINT '+(h+1)+'</b>';e.append(H[h]);$('hints').appendChild(e);h++;$('hb').textContent='ヒント '+h+'/3'};
+$('ab').onclick=()=>{const x=$('ansbox').classList.toggle('hidden');$('ab').textContent=x?'答えを見る':'答えを隠す'};
+</script></body></html>
