@@ -64,6 +64,8 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 .small{font-size:12px;color:var(--sub)}
 .mini{padding:6px 10px;font-size:12px;border-radius:10px}
 .inrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.joso.kinshin{background:#3a3a44;color:#bbb;box-shadow:none;opacity:1;animation:shake .4s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style></head><body><div class="wrap"><div id="lock"><header><div class="logo">Syuri Haishin <b>上奏</b></div><span class="tag">2026.11.22</span></header>
 <div class="card rule"><div class="ttl">しゅり配信<br>うんちく上奏</div>参加者用のパスワードを入れてください。一度入れると、次からは自動で開きます。</div>
 <div class="card"><div class="inrow"><input type="password" id="pw" placeholder="パスワード" autocomplete="current-password"><button class="p" id="pwok">開く</button></div><div class="small" id="pwmsg" style="margin-top:8px"></div></div></div>
@@ -85,7 +87,7 @@ input[type=text]{font:inherit;padding:12px 14px;border-radius:12px;border:1px so
 <div class="card anscard hidden" id="sansbox"><div class="label">ANSWER</div><div class="ans" id="sans"></div></div></div>
 </div>
 </div></div>
-<script>let DATA=null;const ENC={"salt":"KjFmmHATvuvhhLzBD0NZEQ==","iv":"Xtkabm5XoTEF1W+g","ct":"dTZd3/W/OZo9HBjJsbfiffyw1u6r/B/tSDlQucq3XjmClufelyZG1oxcL762TArLi2tFVEIbgDjM5r1DaUK7ABTF9o/0ZsYVA825KZ67KkS5uM+vuing98jVVQvUR8tDdOxTUBvS7W2GFyqenAM0D6DWGIK9+u8eDqh/pCcbOTVGjmrGe6bBQBP4zvoMJvDeJdPPBjlebiEWyo7upo2Bxz6nQk6AMnt5Mci+vPQgXdMKSpsx/tGD3+dVIgTV8bxDaAF1MW+QebJNfzrE374IWdVa4cMmY4GPO2orMzpVZqEydN/FdRX8HgmXa9WWzFQcjMVQgXGI7atq0bzBo30oZ1myIOfp5Kt7dVAbVvxaJSBb7w4GQVDmm5hovQk4EcdeONdGGi+tJNygElcDFGginAKeNVmtVxj5Q9jfETHTMT2z9ixHgF7+2ILlGBTbMiMBSWWi5R05jR7yHj/r5GmjEgd9u8ZSEfCLlzLkAoJWkBA2FvrNQaqLxK1BR1F3SkTQJfHw5q1xrb2uAfdyr+hFkoaCSl0SzWM1qki8SQb69S/afpJMob4ctuACtklguFU3BU9Xggcuu+C8PGHXzUkWimV7ZoOcikUdpcmj4YGrtSZfU/K9gqDuE0c3BkSrZdWTl1Hf7swc+TXjen6XEQyrGIu0nWtIogJtTMYgWjxKJ2cN1HrxPMpOwxmUCstfEmoW27o7v/JZJY9+LiMGmKHuZAbYVFCzkcqvUkNq+IQDYIgAxczfxidj1v8Kb1FIxPuCSzDF+l6hV2EYgytswfasL3bH2dM9yMkvRYQsAet17AH7U4nqvnJoZ1gJx2zROu+4u1pAt8FzGh6L2s/UqYkQYSRy3+IRlIsjJe6DmfvBnSHzVwCYq/veSup0xKf9D0MRYaNHaaAF5PZSlFuUb0tF2pNhfoAqTomXdwnY6yFd45Vzfgo55BrU7XN5DvRhsNlrj1HiSr6G2FT5mA5Wj+Af1GIXAh4mLeXdXfTvjEroA7YMmheimzlm7kttX85jPA5Cf3a3pGja55e/uIg5PizBK0xT6ds7qeyzbS7Z955KjACrYRqul9s7uLb7vnc3ZhWVVjOHMzSI+pccncoEjNUWzbEH4d93Neo4uWc=","it":300000};
+<script>let DATA=null;const ENC={"salt":"/U9pN2BGnoIkDzx7WC7LCw==","iv":"IgbsX4vsg1E+eu0P","ct":"dEjZ8tvJXYsBOcVrXct0MsD2MAgp9SPL58pPxN5VwsqYgy4tQ5D1cB5xNXil624cNrM0u5Zxc6Oi9mcXn4di+PAdTz+Xn0MPAJTZjcJQ86268r9Fp+Yo8h8jHcReP39U71Z/2ufmtXv8cao01KO8l3UNpdEZuB+3fEigjlGQPDpCCkZRVKOUISC/BMl0Fwj/BH8xr+SbbyDr9G5nHhlFAZXytrwD8+/2Fw5Pdtmg+5kxAhuK1vXGZNAEFkgkIH7gYDxD11RqaRmZ38klztyiJ4zPNtq1I4o6Ul95EHN8gGbn5cWFRnt9xKpYc3UrRcBJgfgC6dTBjOHXqZaH3MiV8JPfv2QRSkOQsx0BQnkKl/HZU3z+wCPu7ICaqWiX7g0EPJoN7PQput/msZhXQ7PchUAspHec5VyqIyz1N8dvtfpxY6bYSVsLISJ60RDLN09zAyX84AC9g0Ob77iIjCib0usKWWAvmbY2FmrdiyF0U+Pb+NqgxtwINBm2IusT0IDJz8PsJx/qL9HVz6oneaE5RLcpyZIpiTDPL0lxSRHlFGyJ5V0nHg2+8UBSiy3rWIQxDbxc+9FHaOZUtNwGC+rsfNiU8wx9gXZSyI3VyQE0fC4XT4KSTP7YvEnbdI30bXtBLPnBrI2a/xAZQ72Ie24nBmgEVH2Kvw2zd+LRrW5mjBMRwjG5Q+2i58ld7l3kAs2rSz93TjLgVwdn1S4351NvBoI4gnGouVSNPdvW6Rt7BygT1443X1vvgh9QatdcvjTq1zmVnpq6TLSp2XnlYYtBX4h7QXl0iPQpexByvko0Hi7NhPDST+GamqTqzhF+YIo1aBa9n69GG3QHwIyklmFkZg75Dg1J6qkE32DkVI4G4C00hBNqtz8bWWpX+gkM1YcAfKF8w+/1EcuPM1vjV51MTuxyn+R6CeJEeTX7wp/YbzfwXarn/GMlevD8GDmY+IdQ0H6kNacgliuFq8RDGjM6wLonLMY33skY/Fo2GlHWIZjyTkn8o40Fvga0XZ8lIiKa/NMlHFAQF09pGqm95zESkIC2Ecx8PVjUxQrpA5/5gLnsuC3sN+YFad5hZFnBpSzGgxT3M7NEh4LDKiDTfHfho/3DMswNyAgCsGc=","it":300000};
 // ntfy.sh を使った簡易リアルタイム通信（出題者・参加者で共通）
 const NTFY = "https://ntfy.sh";
 
@@ -198,12 +200,34 @@ function render() {
   $("board").innerHTML = rows.map(([n, v], i) => `<li class="${n === me ? "me" : ""}"><span><span class="rk">${i + 1}</span>${esc(n)}</span><span class="koku">${koku(v)}</span></li>`).join("");
 }
 
+// 連打対策: 前回の上奏から RAPID_MS 以内にもう一度押すと「謹慎」で KINSHIN_MS 押せなくなる
+const RAPID_MS = 1500, KINSHIN_MS = 3000;
+let kinshinUntil = 0, kinshinTimer = null;
+function enterKinshin() {
+  kinshinUntil = Date.now() + KINSHIN_MS;
+  const btn = $("joso"); btn.classList.add("kinshin"); btn.disabled = true;
+  $("josomsg").textContent = "連打は不敬である。謹慎を申し付ける。";
+  clearInterval(kinshinTimer);
+  const tick = () => {
+    const left = Math.ceil((kinshinUntil - Date.now()) / 1000);
+    if (left <= 0) {
+      clearInterval(kinshinTimer); btn.classList.remove("kinshin"); btn.disabled = false;
+      btn.textContent = "上奏！"; $("josomsg").textContent = "謹慎が解けました。";
+      return;
+    }
+    btn.textContent = `謹慎中 ${left}`;
+  };
+  tick(); kinshinTimer = setInterval(tick, 200);
+}
 $("joso").onclick = async () => {
   if (!me) return showPick();
-  const now = Date.now(); if (now - lastJoso < 4000) return; lastJoso = now;
-  $("joso").disabled = true; setTimeout(() => ($("joso").disabled = false), 4000);
+  const now = Date.now();
+  if (now < kinshinUntil) return;
+  if (now - lastJoso < RAPID_MS) { enterKinshin(); return; }
+  lastJoso = now;
   const no = state?.cur?.no || 0;
   const ok = await publish(TOPIC, { type: "joso", name: me, no, ts: now, id: `${me}-${now}` });
+  if (Date.now() < kinshinUntil) return;
   $("josomsg").textContent = ok
     ? (no ? `第${no}問に上奏しました。出題者の沙汰を待て。` : "例題で上奏しました（テスト）。出題者の画面に届いています。")
     : "送信できませんでした。電波を確認してもう一度。";
